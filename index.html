@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>🚀 Космо-Таблица — учим таблицу умножения весело</title>
+  <meta name="description" content="Учим таблицу умножения без зубрёжки: фокусы-секреты, игры, звёзды и прогресс." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>" />
+</head>
+<body>
+  <div class="stars-bg"></div>
+  <canvas id="confetti"></canvas>
+
+  <div class="wrap">
+    <!-- Шапка -->
+    <div class="topbar">
+      <div class="logo" data-go="home"><span class="rocket">🚀</span> Космо-Таблица</div>
+      <div class="stars-badge" id="starsBadge">
+        <span class="big">⭐</span> <span id="starCount">0</span>
+      </div>
+    </div>
+
+    <!-- ГЛАВНАЯ -->
+    <section id="screen-home" class="screen active">
+      <div class="card">
+        <div class="hero">
+          <div class="mascot" id="mascot">🐨</div>
+          <div class="hi">
+            <h1>Привет, <input class="name-edit" id="nameInput" maxlength="14" /> !</h1>
+            <p id="homeMotto">Давай сегодня подружимся с таблицей умножения ✨</p>
+          </div>
+        </div>
+
+        <div class="progress-ring">
+          <div class="ring" id="ring" style="--p:0">
+            <div class="num"><span id="ringPct">0</span>%<small>выучено</small></div>
+          </div>
+          <div>
+            <div class="stat-row">
+              <div class="stat"><span class="big">✅</span> <span id="knownCount">0</span> знаю</div>
+              <div class="stat"><span class="big">📚</span> <span id="learnCount">0</span> учу</div>
+            </div>
+            <div class="stat-row">
+              <div class="stat"><span class="big">🔥</span> <span id="streakCount">0</span> подряд</div>
+              <div class="stat"><span class="big">🏅</span> <span id="levelName">Новичок</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Что делаем? 🎯</h2>
+        <div class="quick-actions">
+          <button class="tile a" data-go="tricks">
+            <span class="t-ico">🪄</span>
+            <span class="t-title">Секреты-фокусы</span>
+            <span class="t-sub">Как запомнить без зубрёжки</span>
+          </button>
+          <button class="tile b" data-go="practice">
+            <span class="t-ico">🎓</span>
+            <span class="t-title">Тренировка</span>
+            <span class="t-sub">Сайт сам подберёт примеры</span>
+          </button>
+          <button class="tile c" data-go="games">
+            <span class="t-ico">🎮</span>
+            <span class="t-title">Игры</span>
+            <span class="t-sub">Космо-битва и Пары</span>
+          </button>
+          <button class="tile d" data-go="progress">
+            <span class="t-ico">🗺️</span>
+            <span class="t-title">Карта прогресса</span>
+            <span class="t-sub">Что уже покорено</span>
+          </button>
+        </div>
+      </div>
+      <div class="footer-note">Сделано с ❤️ • данные хранятся только на этом устройстве</div>
+    </section>
+
+    <!-- СЕКРЕТЫ -->
+    <section id="screen-tricks" class="screen">
+      <div class="card">
+        <h2>🪄 Секреты-фокусы</h2>
+        <p>Таблица — это не 100 примеров! Выучи эти фокусы, и почти всё запомнится само. Нажимай на карточку 👇</p>
+        <div class="tricks-list" id="tricksList"></div>
+      </div>
+    </section>
+
+    <!-- ТРЕНИРОВКА -->
+    <section id="screen-practice" class="screen">
+      <div class="card quiz" id="practiceCard">
+        <!-- заполняется JS -->
+      </div>
+    </section>
+
+    <!-- ИГРЫ -->
+    <section id="screen-games" class="screen">
+      <div class="card" id="gamesMenu">
+        <h2>🎮 Игры</h2>
+        <div class="quick-actions">
+          <button class="tile a" data-game="battle">
+            <span class="t-ico">🚀</span>
+            <span class="t-title">Космо-битва</span>
+            <span class="t-sub">Успей ответить за время!</span>
+          </button>
+          <button class="tile b" data-game="pairs">
+            <span class="t-ico">🃏</span>
+            <span class="t-title">Найди пару</span>
+            <span class="t-sub">Пример ↔ ответ</span>
+          </button>
+        </div>
+      </div>
+      <div class="card quiz" id="gameCard" style="display:none;"></div>
+    </section>
+
+    <!-- ПРОГРЕСС -->
+    <section id="screen-progress" class="screen">
+      <div class="card">
+        <h2>🗺️ Карта прогресса</h2>
+        <p>Каждая клетка — это пример. Чем зеленее, тем лучше ты его знаешь!</p>
+        <div class="grid-wrap"><div id="gridHost"></div></div>
+        <div class="legend">
+          <span><i class="dot" style="background:var(--new)"></i> ещё не начали</span>
+          <span><i class="dot" style="background:var(--learn)"></i> учим</span>
+          <span><i class="dot" style="background:var(--almost)"></i> почти</span>
+          <span><i class="dot" style="background:var(--known)"></i> знаю!</span>
+        </div>
+        <div class="spacer"></div>
+        <div class="row" style="justify-content:center">
+          <button class="btn secondary" data-go="practice">🎓 Тренироваться</button>
+          <button class="btn ghost" id="resetBtn">🔄 Сбросить прогресс</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Нижняя навигация -->
+  <nav class="nav">
+    <button data-go="home" class="active"><span class="ico">🏠</span>Главная</button>
+    <button data-go="tricks"><span class="ico">🪄</span>Секреты</button>
+    <button data-go="practice"><span class="ico">🎓</span>Учусь</button>
+    <button data-go="games"><span class="ico">🎮</span>Игры</button>
+    <button data-go="progress"><span class="ico">🗺️</span>Карта</button>
+  </nav>
+
+  <!-- Модалка урока -->
+  <div class="modal-back" id="modalBack">
+    <div class="modal" id="modal"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

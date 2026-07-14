@@ -1,0 +1,5 @@
+# служебное
+server.mjs
+.DS_Store
+Thumbs.db
+node_modules/
